@@ -175,7 +175,7 @@ ul.girly { list-style-type: "🫧"; }
 .btn--addperson {
     background: #ffffff;
     color: var(--color-highlight);
-    border: 2px solid rgba(110, 231, 216, 0.45);
+    border: 2px solid var(--color-highlight)
 }
 
 /* RSVP card specific primary style */
