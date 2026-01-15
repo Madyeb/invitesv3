@@ -28,8 +28,8 @@ const rsvpState = {
   people: [],
 };
 
-const RSVP_YES_IMAGE_URL = "images/leslie-yes.png";
-const RSVP_NO_IMAGE_URL  = "images/leslie-no.png";
+const RSVP_YES_IMAGE_URL = "assets/images/Leslie-yes.jpeg";
+const RSVP_NO_IMAGE_URL  = "assets/images/Leslie-no.jpeg";
 
 function uid() {
   return crypto?.randomUUID?.() ?? `id_${Date.now()}_${Math.random().toString(16).slice(2)}`;
