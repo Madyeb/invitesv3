@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Leslie’s Birthday Party</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <header class="site-header">
+    <h1>Leslie’s Birthday Party 🤸‍♀️</h1>
+  </header>
+
+  <main>
+    <!-- Event Details -->
+    <section id="details" class="card">
+      <h2>Key Details</h2>
+      <ul class="girly">
+        <li>Sunday, March 15 from 10:00am to 11:30am</li>
+        <li>Gold Medal Gymnastics Center, Huntington</li>
+      </ul>
+      <br>
+      <h2>Things to know</h2>
+      <ul class="girly">
+        <li>Leslie has requested plain and rainbow bagels be served for lunch.</li>
+        <li>Please let us know if you have any allergies.</li>
+        <li>We'll have coffee and drinks for parents.</li>
+      </ul>
+    </section>
+
+<!-- RSVP -->
+<section id="rsvp" class="card">
+  <h2>RSVP</h2>
+  <p>Please let us know if you can make it.</p>
+
+  <!-- Jump button, now actually scrolls to the form -->
+  <p>
+    <a id="rsvpRevealBtn" href="#rsvpForm" class="btn btn--primary">RSVP Here</a>
+  </p>
+
+<!-- Yes / No choice -->
+<div class="rsvp-choice" role="group" aria-label="RSVP choice" hidden>
+  <button type="button" class="choice-btn is-active" data-rsvp="YES" aria-pressed="true">
+    🎉 we can come!
+  </button>
+  <button type="button" class="choice-btn" data-rsvp="NO" aria-pressed="false">
+    😢 we cannot make it
+  </button>
+</div>
+
+<!-- RSVP Result (hidden until submit) -->
+<div id="rsvpResult" class="rsvp-result" hidden>
+  <img id="rsvpResultImg" alt="" />
+  <p id="rsvpResultText"></p>
+</div>
+
+<!-- Form -->
+<form id="rsvpForm" class="rsvp-form" novalidate hidden>
+  <div id="rsvpPeople" class="rsvp-people"></div>
+  <div class="rsvp-actions">
+    <button type="button" id="addPersonBtn" class="btn btn--addperson">Add person</button>
+    <button type="submit" id="submitRsvpBtn" class="btn btn--primary">Submit RSVP</button>
+  </div>
+  <p class="rsvp-message" id="rsvpMessage" aria-live="polite"></p>
+</form>
+
+<!-- Add to Calendar (hidden until RSVP YES) -->
+<div id="rsvpCalendarRow" class="button-row" hidden>
+  <button type="button" id="addToCalendarBtn" class="btn btn--secondary">📅 Add to Calendar</button>
+</div>
+</section>
+
+<!-- Wishlist -->
+<section id="wishlist" class="card">
+<h2>Wishlist</h2>
+<p class="muted">
+Your presence is the best present, but if you'd like to bring a gift, here are some ideas Leslie would love!
+</p>
+
+<div id="wishlistList" class="wishlist-list" aria-live="polite"></div>
+
+<div id="claims" class="claims-list" aria-live="polite" hidden></div>
+
+<!-- Claim Modal (hidden by default) -->
+<div class="modal" id="claimModal" role="dialog" aria-modal="true" aria-labelledby="claimModalTitle" hidden>
+<div class="modal__backdrop" data-close="true"></div>
+
+<div class="modal__panel" role="document">
+<h3 id="claimModalTitle">Claim this gift</h3>
+<p class="muted" id="claimModalItemTitle"></p>
+
+<label class="field">
+<span class="field__label">Your name</span>
+<input
+    type="text"
+    id="claimerName"
+    class="field__input"
+    autocomplete="name"
+    placeholder="Enter your name"
+/>
+</label>
+
+<div class="modal__actions">
+<button type="button" class="btn btn--secondary" id="cancelClaim">Cancel</button>
+<button type="button" class="btn btn--primary" id="confirmClaim" disabled>
+  <span class="btn-label">Claim</span>
+  <span class="btn-spinner" aria-hidden="true"></span>
+</button></div>
+
+<p class="error-text" id="claimError" hidden></p>
+</div>
+</div>
+
+<!-- Unclaim Confirm (hidden by default) -->
+<div class="modal" id="unclaimModal" role="dialog" aria-modal="true" aria-labelledby="unclaimModalTitle" hidden>
+<div class="modal__backdrop" data-close="true"></div>
+
+<div class="modal__panel" role="document">
+    <h3 id="unclaimModalTitle">Unclaim this gift?</h3>
+    <p class="muted" id="unclaimModalItemTitle"></p>
+
+    <label class="field">
+  <span class="field__label">Your name</span>
+  <input
+    type="text"
+    id="unclaimerName"
+    class="field__input"
+    autocomplete="name"
+    placeholder="Enter your name"
+  />
+</label>
+
+    <div class="modal__actions">
+    <button type="button" class="btn btn--secondary" id="cancelUnclaim">Keep claimed</button>
+    <button type="button" class="btn btn--primary" id="confirmUnclaim">
+    <span class="btn-label">Unclaim</span>
+    <span class="btn-spinner" aria-hidden="true"></span></button>
+    </div>
+
+    <p class="error-text" id="unclaimError" hidden></p>
+</div>
+</div>
+</section>
+</main>
+
+  <footer class="site-footer">
+    <p>Made by Madye</p>
+  </footer>
+
+  <!-- Scripts -->
+    <script type="module" src="script.js"></script>
+    <script type="module" src="wishlist.js"></script>
+    <script type="module" src="claims.js"></script>
+    <script type="module" src="rsvp.js"></script>
+</body>
+</html>
