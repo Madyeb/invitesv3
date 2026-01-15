@@ -73,7 +73,6 @@ function setCalendarVisible(visible) {
 function revealRsvpFormAndScroll() {
   hideRsvpResult(); 
   setRsvpUiVisible(true);
-  document.getElementById("rsvpForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   setTimeout(() => {
     const firstInput = document.querySelector("#rsvpPeople input, #rsvpPeople select, #rsvpPeople textarea");
@@ -409,7 +408,7 @@ function initRsvp() {
   setCalendarVisible(false);
   hideRsvpResult();
 
-  const revealLink = document.getElementById("rsvpRevealBtn") || document.querySelector('a[href="#rsvpForm"]');
+  const revealLink = document.getElementById("rsvpRevealBtn");
   if (revealLink) {
     revealLink.setAttribute("aria-controls", "rsvpForm");
     revealLink.setAttribute("aria-expanded", "false");
