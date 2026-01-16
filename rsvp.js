@@ -77,11 +77,9 @@ function revealRsvpFormAndScroll() {
   hideRsvpResult();
   setCalendarVisible(false);
 
-  // Reset to "no choice"
   rsvpState.rsvp = null;
   rsvpState.people = [];
 
-  // Show only the YES/NO buttons, not the form
   setChoiceVisible(true);
   setFormVisible(false);
 
@@ -90,10 +88,21 @@ function revealRsvpFormAndScroll() {
     b.classList.remove("is-active");
     b.setAttribute("aria-pressed", "false");
   });
-
-  // Optional: scroll to the choice area (not the form)
-  document.querySelector(".rsvp-choice")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
+
+function setRsvpUiVisible(visible) {
+  // Hide/show both the choice buttons and the form
+  setChoiceVisible(visible);
+  setFormVisible(visible);
+
+  // Optional: also hide any inline message when hiding UI
+  const msg = document.getElementById("rsvpMessage");
+  if (msg && !visible) {
+    msg.textContent = "";
+    msg.dataset.kind = "";
+  }
+}
+
 
 /* -----------------------------------------
    Rendering
@@ -224,9 +233,6 @@ function setChoice(rsvp) {
   // Now reveal the form since a choice has been made
   setFormVisible(true);
   render();
-
-  // Scroll to the form now (optional)
-  document.getElementById("rsvpForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   setTimeout(() => {
     const firstInput = document.querySelector("#rsvpPeople input, #rsvpPeople select, #rsvpPeople textarea");
@@ -385,24 +391,24 @@ async function submitRsvp(e) {
     }
 
     // Always hide the form + choice buttons after submit
-setRsvpUiVisible(false);
+  setRsvpUiVisible(false);
 
-if (rsvpState.rsvp === "YES") {
-  setCalendarVisible(true);
+  if (rsvpState.rsvp === "YES") {
+    setCalendarVisible(true);
 
-  const names = rsvpState.people.map(p => p.attendeeName.trim()).filter(Boolean);
-  const line = names.length
-    ? `Leslie is so excited to celebrate with ${names.join(" and ")}!`
-    : "Hurray! You can make it!!";
+    const names = rsvpState.people.map(p => p.attendeeName.trim()).filter(Boolean);
+    const line = names.length
+      ? `Leslie is so excited to celebrate with ${names.join(" and ")}!`
+      : "Hurray! You can make it!!";
 
-  showRsvpResult({ kind: "yes", message: line, imageUrl: RSVP_YES_IMAGE_URL });
-} else {
-  setCalendarVisible(false);
+    showRsvpResult({ kind: "yes", message: line, imageUrl: RSVP_YES_IMAGE_URL });
+  } else {
+    setCalendarVisible(false);
 
-  const name = rsvpState.people[0].attendeeName.trim();
-  const line = name ? `Leslie will miss you, ${name}.` : "Oh no! You can't make it...";
+    const name = rsvpState.people[0].attendeeName.trim();
+    const line = name ? `Leslie will miss you, ${name}.` : "Oh no! You can't make it...";
 
-  showRsvpResult({ kind: "no", message: line, imageUrl: RSVP_NO_IMAGE_URL });
+    showRsvpResult({ kind: "no", message: line, imageUrl: RSVP_NO_IMAGE_URL });
 }
 
 
