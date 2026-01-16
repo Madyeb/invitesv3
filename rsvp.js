@@ -29,7 +29,7 @@ const rsvpState = {
   confirmedChoice: false, // to track if they've made a choice yet
 };
 
-const RSVP_YES_IMAGE_URL = "assets/images/leslie-yes.png";
+const RSVP_YES_IMAGE_URL = "assets/images/leslie-yes.jpeg";
 const RSVP_NO_IMAGE_URL  = "assets/images/Leslie-no.jpeg";
 
 function uid() {
@@ -480,3 +480,4 @@ if (document.readyState === "loading") {
 } else {
   initRsvp();
 }
+
