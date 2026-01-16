@@ -32,7 +32,7 @@ body {
   --color-secondary: #C9C3FF; /* Lavender */
   --color-accent: #FF7EB6;    /* Unicorn Pink */
   --color-highlight: #6EE7D8; /* Mint */
-  --color-bg: #F7F8FB;
+  --color-bg: #e3e8f8;
   --color-text: #111827;
 
   --card-bg: #ffffff;
@@ -682,3 +682,4 @@ body.modal-open { overflow: hidden; }
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
