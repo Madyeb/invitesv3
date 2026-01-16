@@ -14,8 +14,8 @@
     rel="stylesheet"
   />
 
-  <link rel="icon" type="image/jpg" href="assets/images/favicon.jpg">
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/jpg" href="assets/images/favicon.jpg">
 </head>
 
 <body>
@@ -53,7 +53,7 @@
 
 <!-- Yes / No choice -->
 <div class="rsvp-choice" role="group" aria-label="RSVP choice" hidden>
-  <button type="button" class="choice-btn is-active" data-rsvp="YES" aria-pressed="true">
+  <button type="button" class="choice-btn is-active" data-rsvp="YES" aria-pressed="false">
     🎉 we can come!
   </button>
   <button type="button" class="choice-btn" data-rsvp="NO" aria-pressed="false">
@@ -71,8 +71,8 @@
 <form id="rsvpForm" class="rsvp-form" novalidate hidden>
   <div id="rsvpPeople" class="rsvp-people"></div>
   <div class="rsvp-actions">
-    <button type="button" id="addPersonBtn" class="btn btn--addperson">Add person</button>
     <button type="submit" id="submitRsvpBtn" class="btn btn--primary">Submit RSVP</button>
+    <button type="button" id="addPersonBtn" class="btn btn--addperson">Add person</button>
   </div>
   <p class="rsvp-message" id="rsvpMessage" aria-live="polite"></p>
 </form>

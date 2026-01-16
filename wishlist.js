@@ -280,7 +280,6 @@ async function onConfirmClaim() {
       modalEl: claimModal,
       confirmBtn: confirmClaimBtn,
       cancelBtn: cancelClaimBtn,
-      // re-disable if name is empty when still open
       reDisableIfEmpty: () => ((claimerNameInput?.value || "").trim().length === 0),
     });
   }
@@ -396,7 +395,6 @@ function openModal(modalEl) {
 
 function closeModal(modalEl) {
   if (!modalEl) return;
-  if (modalBusy) return; // prevents closing during submit
   modalEl.hidden = true;
   document.body.classList.remove("modal-open");
 }
@@ -450,13 +448,15 @@ function lockModalBusy_({ confirmBtn, cancelBtn }) {
 function unlockModalBusy_({ modalEl, confirmBtn, cancelBtn, reDisableIfEmpty }) {
   modalBusy = false;
 
-  // Only reset buttons if the modal is still open.
-  if (!modalEl || modalEl.hidden) return;
-
   if (confirmBtn) {
     confirmBtn.classList.remove("is-loading");
-    const shouldDisable = typeof reDisableIfEmpty === "function" ? reDisableIfEmpty() : false;
+    const shouldDisable =
+      typeof reDisableIfEmpty === "function" ? reDisableIfEmpty() : false;
     confirmBtn.disabled = Boolean(shouldDisable);
   }
+
   if (cancelBtn) cancelBtn.disabled = false;
+
+  // If you still want to bail out of any other modal-specific UI work, you can:
+  // if (!modalEl || modalEl.hidden) return;
 }

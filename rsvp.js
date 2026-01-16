@@ -24,11 +24,12 @@ const RSVP_GET_ENDPOINT = `${RSVP_BASE}?route=rsvps`;
 const RSVP_POST_ENDPOINT = `${RSVP_BASE}?route=rsvp`;
 
 const rsvpState = {
-  rsvp: "YES", // "YES" or "NO"
+  rsvp: null,
   people: [],
+  confirmedChoice: false, // to track if they've made a choice yet
 };
 
-const RSVP_YES_IMAGE_URL = "assets/images/Leslie-yes.jpeg";
+const RSVP_YES_IMAGE_URL = "assets/images/leslie-yes.png";
 const RSVP_NO_IMAGE_URL  = "assets/images/Leslie-no.jpeg";
 
 function uid() {
@@ -57,12 +58,14 @@ function setMessage(text, kind) {
 /* -----------------------------------------
    Show/Hide helpers
 ----------------------------------------- */
-function setRsvpUiVisible(visible) {
-  const form = document.getElementById("rsvpForm");
+function setChoiceVisible(visible) {
   const choice = document.querySelector(".rsvp-choice");
-
-  if (form) form.hidden = !visible;
   if (choice) choice.hidden = !visible;
+}
+
+function setFormVisible(visible) {
+  const form = document.getElementById("rsvpForm");
+  if (form) form.hidden = !visible;
 }
 
 function setCalendarVisible(visible) {
@@ -71,13 +74,25 @@ function setCalendarVisible(visible) {
 }
 
 function revealRsvpFormAndScroll() {
-  hideRsvpResult(); 
-  setRsvpUiVisible(true);
+  hideRsvpResult();
+  setCalendarVisible(false);
 
-  setTimeout(() => {
-    const firstInput = document.querySelector("#rsvpPeople input, #rsvpPeople select, #rsvpPeople textarea");
-    firstInput?.focus();
-  }, 250);
+  // Reset to "no choice"
+  rsvpState.rsvp = null;
+  rsvpState.people = [];
+
+  // Show only the YES/NO buttons, not the form
+  setChoiceVisible(true);
+  setFormVisible(false);
+
+  // Visually clear button states
+  document.querySelectorAll(".choice-btn").forEach((b) => {
+    b.classList.remove("is-active");
+    b.setAttribute("aria-pressed", "false");
+  });
+
+  // Optional: scroll to the choice area (not the form)
+  document.querySelector(".rsvp-choice")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 /* -----------------------------------------
@@ -118,7 +133,7 @@ function render() {
     return;
   }
 
-  addBtn.style.display = "inline-flex";
+    addBtn.style.display = rsvpState.confirmedChoice ? "inline-flex" : "none";
 
   rsvpState.people.forEach((p, idx) => {
     const removable = idx >= 2;
@@ -187,8 +202,9 @@ function render() {
 }
 
 function setChoice(rsvp) {
-    hideRsvpResult();
-    rsvpState.rsvp = rsvp;
+  hideRsvpResult();
+  rsvpState.rsvp = rsvp;
+  rsvpState.confirmedChoice = (rsvp === "YES");
 
   document.querySelectorAll(".choice-btn").forEach((b) => {
     const active = b.dataset.rsvp === rsvp;
@@ -205,7 +221,17 @@ function setChoice(rsvp) {
     rsvpState.people = [{ attendeeId: uid(), attendeeName: "" }];
   }
 
+  // Now reveal the form since a choice has been made
+  setFormVisible(true);
   render();
+
+  // Scroll to the form now (optional)
+  document.getElementById("rsvpForm")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  setTimeout(() => {
+    const firstInput = document.querySelector("#rsvpPeople input, #rsvpPeople select, #rsvpPeople textarea");
+    firstInput?.focus();
+  }, 250);
 }
 
 function addPerson() {
@@ -403,12 +429,13 @@ setRsvpUiVisible(true);
    Init
 ----------------------------------------- */
 function initRsvp() {
-  // Keep hidden until reveal
-  setRsvpUiVisible(false);
-  setCalendarVisible(false);
-  hideRsvpResult();
+setChoiceVisible(false);
+setFormVisible(false);
+setCalendarVisible(false);
+hideRsvpResult();
 
   const revealLink = document.getElementById("rsvpRevealBtn");
+
   if (revealLink) {
     revealLink.setAttribute("aria-controls", "rsvpForm");
     revealLink.setAttribute("aria-expanded", "false");
